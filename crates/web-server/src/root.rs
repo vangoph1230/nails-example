@@ -1,10 +1,11 @@
 use crate::errors::CustomError;
-use axum::{Extension, Json};
-use clorinde::{deadpool_postgres::Pool, queries::users::User};
+use axum::{response::Html, Extension};
+use web_pages::root;
+use clorinde::deadpool_postgres::Pool;
 
 pub async fn loader(
     Extension(pool): Extension<Pool>,
-) -> Result<Json<Vec<User>>, CustomError> {
+) -> Result<Html<String>, CustomError> {
     let client = pool.get().await?;
 
     let users = clorinde::queries::users::get_users()
@@ -12,5 +13,7 @@ pub async fn loader(
         .all()
         .await?;
 
-    Ok(Json(users))
+    let html = root::index(users);
+
+    Ok(Html(html))
 }
