@@ -10,6 +10,7 @@ The database
         创建迁移：dbmate new user_tables
         查看迁移状态：dbmate status
         执行迁移：dbmate up
+    结果查询：psql $DATABASE_URL -c 'SELECT count(*) FROM auth.users;'
 
 cargo install clorinde  安装 clorinde，clorinde是一个代码生成器，它接收小型 SQL 片段并将其转换为 Rust 函数
 
